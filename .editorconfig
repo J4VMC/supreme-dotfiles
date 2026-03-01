@@ -1,0 +1,37 @@
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Web technologies, JS ecosystem, and Ruby/Elixir (typically 2 spaces)
+[*.{js,jsx,ts,tsx,json,html,css,scss,yml,yaml,twig,svelte}]
+indent_size = 2
+
+# Python (PEP 8 standard is 4 spaces)
+[*.py]
+indent_size = 4
+
+# Shell scripts (Bash, Fish)
+[*.{sh,bash,fish}]
+indent_size = 4
+
+# Go (Go strictly uses tabs)
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Rust
+[*.rs]
+indent_size = 4
+
+# Makefiles require tabs
+[Makefile]
+indent_style = tab
+indent_size = 4

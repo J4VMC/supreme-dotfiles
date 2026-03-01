@@ -1,0 +1,36 @@
+[init]
+    defaultBranch = main
+    
+[core]
+    excludesfile = ~/.gitignore_global
+    pager = delta
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+[include]
+    path = ~/.gitconfig.local
+
+[diff "elpaca-lock"]
+    # This regex pulls the package name into the hunk header
+    xfuncname = "^[[:space:]\\(]\\(([a-zA-Z0-9_-]+)[[:space:]].*$"
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    features = gruvbox
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
