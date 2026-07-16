@@ -1,0 +1,9 @@
+.gitconfig.local
+.DS_STORE
+*~
+\#*\#
+.\#*
+auto-save-list
+tramp
+
+**/.claude/settings.local.json

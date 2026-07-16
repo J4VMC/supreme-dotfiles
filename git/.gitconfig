@@ -1,0 +1,66 @@
+[init]
+    defaultBranch = main
+    
+[core]
+    excludesfile = ~/.gitignore_global
+    pager = delta
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+# --- SSH Commit Signing ---
+[commit]
+    gpgsign = true
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
+
+[user]
+    # Set your default/personal public key here
+    signingkey = ~/.ssh/id_ed25519.pub
+    useConfigOnly = true
+
+# Machine-local & per-client overrides. Placed LAST — after [user] and
+# everything else — so whatever ~/.gitconfig.local sets (identities, signing
+# keys, per-directory includeIf routing for client work areas) always wins
+# over the committed defaults above. The .local file is untracked by design:
+# client names and work identities never appear in this repository.
+[include]
+    path = ~/.gitconfig.local
+
+# --- Delta & Diffs ---
+[diff "elpaca-lock"]
+    # This regex pulls the package name into the hunk header
+    xfuncname = "^[[:space:]\\(]\\(([a-zA-Z0-9_-]+)[[:space:]].*$"
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    features = gruvbox
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[submodule]
+    recurse = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/local/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/local/bin/gh auth git-credential

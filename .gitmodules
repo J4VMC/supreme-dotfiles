@@ -1,0 +1,6 @@
+[submodule "emacs"]
+	path = emacs
+	url = git@github.com:J4VMC/supreme-emacs.git
+[submodule "fish"]
+	path = fish
+	url = git@github.com:J4VMC/supreme-fish.git

@@ -1,0 +1,48 @@
+shell-integration = fish
+shell-integration-features = no-cursor
+command = fish
+
+font-family = "FiraCode Nerd Font"
+font-size = 14
+font-feature = "liga"
+font-feature = "calt"
+font-feature = "zero"
+font-feature = "fracs"
+
+theme = "Gruvbox Dark Hard"
+cursor-style = "underline"
+cursor-style-blink = true
+
+background-opacity = 0.85
+background-blur = true
+
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+
+# Keyboard / macOS
+# Option sends Meta/Alt so M-x, M-f, M-b etc. work in terminal Emacs (emacsclient -t).
+macos-option-as-alt = true
+
+# Color / display
+# The built-in panel is wide-gamut P3; render in P3 for richer, accurate color.
+window-colorspace = display-p3
+
+# Clipboard
+# Selections go straight to the macOS system pasteboard (default only fills the middle-click buffer).
+copy-on-select = clipboard
+# Allow programs to read the clipboard without a prompt (e.g. OSC-52 paste from Emacs/tmux over SSH).
+clipboard-read = allow
+
+# Quality of life
+mouse-hide-while-typing = true
+window-save-state = always
+resize-overlay = never
+
+# Global dropdown "scratch" terminal: cmd+` from anywhere (needs Accessibility permission).
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position = top
+
+# Typography
+font-thicken = true
+adjust-cell-height = 10%
