@@ -93,6 +93,10 @@ brew "pipx"
 brew "pkgconf"
 # Object-relational database system
 brew "postgresql@18"
+# Python version management
+brew "pyenv"
+# Library for command-line editing
+brew "readline"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Powerful, clean, object-oriented scripting language
@@ -107,16 +111,22 @@ brew "shfmt"
 brew "starship"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# TOML toolkit written in Rust
+brew "taplo"
 # Tool Command Language
 brew "tcl-tk"
 # Official documentation format of the GNU project
 brew "texinfo"
 # Incremental parsing library
 brew "tree-sitter"
+# General-purpose data compression with high compression ratio
+brew "xz"
 # General-purpose lossless data-compression library
 brew "zlib"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Zstandard is a real-time compression algorithm
+brew "zstd"
 # GNU Emacs text editor
 brew "d12frosted/emacs-plus/emacs-plus@30", args: ["with-compress-install", "with-dbus", "with-debug", "with-mailutils", "with-xwidgets"], trusted: true
 # Enterprise-ready, GitOps enabled, CloudNative feature management solution
