@@ -79,8 +79,6 @@ brew "librsvg"
 brew "libxml2"
 # Java-based project management
 brew "maven"
-# Polyglot runtime manager (asdf rust clone)
-brew "mise"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pinentry for GPG on Mac
