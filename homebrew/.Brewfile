@@ -9,8 +9,6 @@ brew "openssl@3"
 brew "sqlite"
 # Official Amazon AWS command-line interface
 brew "awscli"
-# Language Server for Bash
-brew "bash-language-server"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Cross-platform make
@@ -81,8 +79,6 @@ brew "librsvg"
 brew "libxml2"
 # Java-based project management
 brew "maven"
-# Polyglot runtime manager (asdf rust clone)
-brew "mise"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pinentry for GPG on Mac
@@ -177,8 +173,10 @@ npm "@anthropic-ai/claude-code"
 npm "@aws/agentcore"
 npm "@google/gemini-cli"
 npm "@google/jules"
+npm "@tailwindcss/language-server"
 npm "@vue/language-server"
 npm "aws-cdk"
+npm "bash-language-server"
 npm "eslint"
 npm "intelephense"
 npm "prettier-plugin-svelte"
