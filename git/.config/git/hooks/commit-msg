@@ -1,0 +1,23 @@
+#!/bin/sh
+# Strip AI assistant attribution from commit messages.
+#
+# Claude Code (and similar tools) append `Co-Authored-By:` trailers and session
+# links. The tool-side setting that disables this has changed names across
+# releases and has silently regressed before, so this hook is the backstop that
+# does not depend on any tool honouring its own config.
+#
+# Wired up globally via core.hooksPath in git/.gitconfig, so it applies to every
+# repository on this machine, submodules included. Repos that set their own
+# core.hooksPath (husky and friends) override this and are unaffected.
+
+msg="$1"
+tmp="$msg.noai"
+
+grep -viE '^[[:space:]]*(co-authored-by:[[:space:]]*claude|claude-session:|.*generated with \[?claude code)' "$msg" >"$tmp"
+
+# Drop the blank lines the removed trailer block leaves behind at the end.
+awk 'BEGIN { blanks = 0 }
+     /^[[:space:]]*$/ { blanks++; next }
+     { while (blanks-- > 0) print ""; blanks = 0; print }' "$tmp" >"$msg"
+
+rm -f "$tmp"
