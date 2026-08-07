@@ -1,0 +1,29 @@
+# Global npm packages — the npm equivalent of ~/.Brewfile.
+#
+# One package per line. Blank lines and `#` comments are ignored.
+# Append `@version` to pin; bare names track latest.
+#
+# Regenerate with `npm-globals dump`, install with `npm-globals install`.
+# `npm` and `corepack` are omitted on purpose: they ship with Node itself.
+#
+# NOTE: globals are installed per Node version under nvm. After
+# `nvm install <version>`, re-run `npm-globals install` for that version.
+
+@anthropic-ai/claude-code
+@aws/agentcore
+@google/gemini-cli
+@google/jules
+@tailwindcss/language-server
+@vue/language-server
+aws-cdk
+bash-language-server
+eslint
+intelephense
+prettier
+prettier-plugin-svelte
+svelte-language-server
+ts-node
+tsx
+typescript
+typescript-language-server
+vscode-langservers-extracted
