@@ -33,11 +33,19 @@ brew bundle --file=homebrew/.Brewfile
 
 3. **Stow the configurations:**
 ```bash
-stow emacs emacs-plus fish git ghostty starship fastfetch homebrew
+stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm
 
 ```
 
-> **Note:** `homebrew` is not optional — the `maintain` command dumps the package list with `brew bundle dump --global`, which writes to `~/.Brewfile`; only the stow symlink makes that land in this repository. `emacs-plus` provides the build configuration (`~/.config/emacs-plus/build.yml`) used when compiling Emacs.
+> **Note:** `homebrew` and `npm` are not optional — the `maintain` command dumps both package lists (`brew bundle dump --global` and `npm-globals dump`) to `~/.Brewfile` and `~/.npm-globals`; only the stow symlinks make those land in this repository. `emacs-plus` provides the build configuration (`~/.config/emacs-plus/build.yml`) used when compiling Emacs.
+
+
+4. **Install Node and its global packages:**
+```bash
+nvm install lts; and nvm use lts; and npm-globals install
+
+```
+
 
 
 
@@ -53,6 +61,14 @@ The environment is powered by a curated list of CLI tools and applications:
 * **Languages & Runtimes**: PHP, Go, OpenJDK, and Python tooling via `pipx` (with `pyenv` managing interpreters — see the Emacs README for the full per-language setup).
 * **Modern CLI**: `bat` (cat replacement), `eza` (ls replacement), `fd`, `ripgrep`, `fzf`, and `zoxide`.
 * **Utilities**: `docker`, `cmake`, `imagemagick`, `pandoc`, and `stow`.
+
+### 📦 Global npm packages (`.npm-globals`)
+
+Node itself is managed by `nvm.fish`; the globally-installed npm packages are pinned in a plain manifest, the npm counterpart of the Brewfile.
+
+* **Manifest**: `~/.npm-globals` — one package per line, `#` comments allowed, `@version` suffix to pin.
+* **Contents**: language servers (`typescript-language-server`, `bash-language-server`, `svelte`, `vue`, `intelephense`, `vscode-langservers-extracted`), formatters (`prettier`), and AI CLIs (`@anthropic-ai/claude-code`, `@google/gemini-cli`).
+* **Caveat**: nvm installs globals *per Node version*. After `nvm install <version>`, re-run `npm-globals install` to repopulate that version.
 
 ### 🐟 Fish Shell
 
@@ -90,9 +106,11 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 
 | Alias | Command |
 | --- | --- |
-| `maintain` | Full system sync: brew update/upgrade/cleanup, fisher update, Brewfile dump, and shell-snapshot regen |
+| `maintain` | Full system sync: brew update/upgrade/cleanup, fisher update, Brewfile dump, npm global update/dump, and shell-snapshot regen |
 | `brewup` | Abbreviation for `maintain` (kept for muscle memory) |
 | `brewed` | Dumps current Brew state to the `homebrew/.Brewfile` |
+| `npm-globals install` | Installs every package listed in `npm/.npm-globals` into the active Node version |
+| `npm-globals dump` | Dumps the current global npm packages to `npm/.npm-globals` |
 | `python` | Maps to `python3` |
 | `ls` | `eza --icons` |
 | `cat` | `bat --paging=never` |
@@ -106,6 +124,7 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 * `fish/`: Fish shell configuration and functions.
 * `git/`: Global Git configuration.
 * `homebrew/`: System package manifest (stowed so `maintain` can keep it in sync).
+* `npm/`: Global npm package manifest (stowed so `maintain` can keep it in sync).
 * `fastfetch/`: System information display config.
 * `ghostty/`: Terminal emulator configuration.
 * `starship/`: Cross-shell prompt configuration.
