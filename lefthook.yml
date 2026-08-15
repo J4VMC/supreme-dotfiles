@@ -2,3 +2,17 @@ commit-msg:
   commands:
     conventional-check:
       run: cog verify --file {1}
+
+pre-commit:
+  commands:
+    # npm/.npmrc is stowed to ~/.npmrc, which is where `npm login` writes its
+    # auth token. This repository is public, so refuse any staged credential.
+    npmrc-no-secrets:
+      glob: "npm/.npmrc"
+      run: |
+        if grep -nE '^[^#]*(_auth|_password)' {staged_files}; then
+          echo ""
+          echo "npm/.npmrc: the lines above look like credentials, and this repo is public."
+          echo "Reference the secret from the environment instead, e.g. \${NPM_TOKEN}."
+          exit 1
+        fi
