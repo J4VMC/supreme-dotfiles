@@ -3,10 +3,13 @@ tap "flipt-io/brew"
 tap "gromgit/fuse"
 tap "hashicorp/tap"
 tap "symfony-cli/tap"
+tap "tilt-dev/tap"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
 # Command-line interface for SQLite
 brew "sqlite"
+# Browser automation CLI for AI agents
+brew "agent-browser"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -28,7 +31,7 @@ brew "coursier"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
-brew "docker"
+brew "docker", link: false
 # Isolated development environments using Docker
 brew "docker-compose", link: false
 # Spellchecker wrapping library
@@ -51,6 +54,8 @@ brew "gh"
 brew "git"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
+# Quickly rewrite git repository history
+brew "git-filter-repo"
 # GNU Privacy Guard (OpenPGP)
 brew "gnupg"
 # Open source programming language to build simple/reliable/efficient software
@@ -65,8 +70,14 @@ brew "grc"
 brew "grep"
 # Smarter Dockerfile linter to validate best practices
 brew "hadolint"
+# Kubernetes package manager
+brew "helm"
+# Agent multiplexer that lives in your terminal
+brew "herdr"
 # Tools and libraries to manipulate images in select formats
 brew "imagemagick"
+# Little helper to run CNCF's k3s in Docker
+brew "k3d"
 # Fast and powerful Git hooks manager for any type of projects
 brew "lefthook"
 # Secure hashing function
@@ -91,8 +102,6 @@ brew "pkgconf"
 brew "postgresql@18"
 # Python version management
 brew "pyenv"
-# Library for command-line editing
-brew "readline"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Powerful, clean, object-oriented scripting language
@@ -115,24 +124,28 @@ brew "tcl-tk"
 brew "texinfo"
 # Incremental parsing library
 brew "tree-sitter"
-# General-purpose data compression with high compression ratio
-brew "xz"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
 # General-purpose lossless data-compression library
 brew "zlib"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
-# Zstandard is a real-time compression algorithm
-brew "zstd"
 # GNU Emacs text editor
 brew "d12frosted/emacs-plus/emacs-plus@30", args: ["with-compress-install", "with-dbus", "with-debug", "with-mailutils", "with-xwidgets"], trusted: true
 # Enterprise-ready, GitOps enabled, CloudNative feature management solution
 brew "flipt-io/brew/flipt", trusted: true
+# Rsync for cloud storage (with macOS FUSE mount support)
+brew "gromgit/fuse/rclone-mac", trusted: true
 # File system client based on SSH File Transfer Protocol
 brew "gromgit/fuse/sshfs-mac", trusted: true
 # Terraform
 brew "hashicorp/tap/terraform", trusted: true
 # Symfony CLI helps Symfony developers manage projects, from local code to remote infrastructure
 brew "symfony-cli/tap/symfony-cli", trusted: true
+# A dev environment as code for microservice apps
+brew "tilt-dev/tap/tilt", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
 # Free app that makes your Internet safer
@@ -171,12 +184,14 @@ go "golang.org/x/tools/gopls"
 go "github.com/sqls-server/sqls"
 npm "@anthropic-ai/claude-code"
 npm "@aws/agentcore"
+npm "@earendil-works/pi-coding-agent"
 npm "@google/gemini-cli"
 npm "@google/jules"
 npm "@tailwindcss/language-server"
 npm "@vue/language-server"
 npm "aws-cdk"
 npm "bash-language-server"
+npm "corepack"
 npm "eslint"
 npm "intelephense"
 npm "prettier-plugin-svelte"
