@@ -3,6 +3,9 @@
 # stop matching on a case-sensitive filesystem.
 .DS_Store
 
-# Client-specific scripts. These are hardcoded against a named client, and this
-# repository is public — keep them local and out of every commit.
-bin/
+# Client-specific scripts are hardcoded against named clients, and this
+# repository is public — keep them local and out of every commit. Generic,
+# client-free tools are re-included one by one below; anything not named
+# stays ignored by default.
+bin/bin/*
+!bin/bin/chrome-route
