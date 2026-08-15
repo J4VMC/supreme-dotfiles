@@ -4,6 +4,8 @@
 [core]
     excludesfile = ~/.gitignore_global
     pager = delta
+    # Global commit-msg hook strips AI assistant attribution trailers.
+    hooksPath = ~/.config/git/hooks
 
 [pull]
     rebase = true
