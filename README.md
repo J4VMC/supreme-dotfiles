@@ -39,6 +39,10 @@ stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm
 
 > **Note:** `homebrew` and `npm` are not optional — the `maintain` command dumps both package lists (`brew bundle dump --global` and `npm-globals dump`) to `~/.Brewfile` and `~/.npm-globals`; only the stow symlinks make those land in this repository. `emacs-plus` provides the build configuration (`~/.config/emacs-plus/build.yml`) used when compiling Emacs.
 
+> **Note:** stowing `npm` also links `~/.npmrc`. If a real file is already there, stow refuses the whole package — check that the existing one holds no credentials, then either delete it or run `stow --adopt npm` and `git diff` to see what it pulled in.
+
+> **Note:** run `lefthook install` once per clone to activate this repository's own commit hooks; they live in `.git/hooks`, which is not tracked.
+
 
 4. **Install Node and its global packages:**
 ```bash
@@ -124,8 +128,8 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 * `fish/`: Fish shell configuration and functions.
 * `git/`: Global Git configuration.
 * `homebrew/`: System package manifest (stowed so `maintain` can keep it in sync).
-* `npm/`: Global npm package manifest (stowed so `maintain` can keep it in sync).
+* `npm/`: Global npm package manifest (stowed so `maintain` can keep it in sync) plus `.npmrc`, which carries the `allow-scripts` list npm requires before a package's install scripts may run. **Never put a registry token in `npm/.npmrc`** — it is stowed to `~/.npmrc`, where `npm login` writes credentials, and this repository is public.
 * `fastfetch/`: System information display config.
 * `ghostty/`: Terminal emulator configuration.
 * `starship/`: Cross-shell prompt configuration.
-* `lefthook.yml`: Commit hooks for this repository itself (Conventional Commits check via Cocogitto).
+* `lefthook.yml`: Commit hooks for this repository itself (Conventional Commits check via Cocogitto, and a pre-commit guard that rejects credentials staged into `npm/.npmrc`).
