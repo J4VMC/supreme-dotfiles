@@ -1,4 +1,7 @@
-.DS_STORE
+# macOS. Written with the real casing: this repo matches only because
+# core.ignorecase is true on a case-insensitive volume, and .DS_STORE would
+# stop matching on a case-sensitive filesystem.
+.DS_Store
 
 # Client-specific scripts. These are hardcoded against a named client, and this
 # repository is public — keep them local and out of every commit.
