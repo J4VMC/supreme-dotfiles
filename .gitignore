@@ -1,1 +1,5 @@
 .DS_STORE
+
+# Client-specific scripts. These are hardcoded against a named client, and this
+# repository is public — keep them local and out of every commit.
+bin/

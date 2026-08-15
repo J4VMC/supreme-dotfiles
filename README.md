@@ -33,7 +33,7 @@ brew bundle --file=homebrew/.Brewfile
 3. **Stow the configurations:**
 
 ```bash
-stow bin emacs emacs-plus fish git ghostty starship fastfetch homebrew npm
+stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm
 
 ```
 
@@ -118,7 +118,6 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 
 ## 📂 Directory Structure
 
-- `bin/`: Personal scripts stowed into `~/bin`.
 - `emacs/`: Emacs configuration (`init.el` and modules).
 - `emacs-plus/`: Build configuration for the emacs-plus formula (`build.yml`).
 - `fish/`: Fish shell configuration and functions.
