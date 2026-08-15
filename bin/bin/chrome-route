@@ -1,0 +1,106 @@
+#!/bin/sh
+# =============================================================================
+# chrome-route --- context-aware, URL-routing Chrome launcher
+# =============================================================================
+#
+# Commentary:
+# Per-client .envrc files export BROWSER pointing here, so every CLI that
+# opens a login URL (aws sso login, gh auth login, ...) goes through this
+# script instead of whatever Chrome profile happens to be frontmost.
+#
+# This script contains no client names and no profile directories. Both live
+# outside the repo:
+#
+#   * Context:  $CHROME_ROUTER_CONTEXT, falling back to $CLIENT_NAME
+#     (lowercased), falling back to "default". The client .envrc files
+#     already export CLIENT_NAME, so most contexts need no extra wiring.
+#
+#   * Rules:    ~/.config/chrome-router/<context>.conf, lines of
+#                   host-pattern [more-patterns...] = Profile Display Name
+#     First matching line wins; use a lone "*" as the catch-all. Patterns
+#     are shell globs matched against the URL's bare host. "#" starts a
+#     comment.
+#
+#   * Profile:  the display name from the rules file is resolved to Chrome's
+#     directory name (Default, Profile 1, ...) at launch time by reading
+#     Chrome's Local State, so profiles can be renumbered or recreated
+#     without touching any config here.
+#
+# Only the FIRST URL a tool hands over needs routing: subsequent SSO
+# redirects happen inside whatever profile window was opened.
+#
+# Fail open: if the context has no rules file, or the profile name does not
+# resolve, fall back to plain Chrome (with a warning) rather than eating the
+# auth URL.
+# =============================================================================
+
+url="$1"
+
+# Reduce the URL to its bare host, so matching text in a path or query
+# string can't select the wrong profile.
+host="${url#*://}"
+host="${host%%/*}"
+host="${host%%\?*}"
+host="${host%%:*}"
+
+# --- Context -----------------------------------------------------------------
+context="${CHROME_ROUTER_CONTEXT:-}"
+if [ -z "$context" ] && [ -n "${CLIENT_NAME:-}" ]; then
+    context=$(printf '%s' "$CLIENT_NAME" | tr '[:upper:]' '[:lower:]')
+fi
+context="${context:-default}"
+conf="${XDG_CONFIG_HOME:-$HOME/.config}/chrome-router/$context.conf"
+
+# --- Rules: first matching host pattern wins ---------------------------------
+profile_name=""
+if [ -f "$conf" ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+        line="${line%%#*}"
+        case "$line" in *=*) ;; *) continue ;; esac
+        patterns="${line%%=*}"
+        name="${line#*=}"
+        # Trim surrounding whitespace from the profile name.
+        name="${name#"${name%%[![:space:]]*}"}"
+        name="${name%"${name##*[![:space:]]}"}"
+        # Word-split the patterns with globbing off, so *.example.com
+        # cannot expand against files in the current directory.
+        set -f
+        for pattern in $patterns; do
+            case "$host" in
+                $pattern) profile_name="$name"; set +f; break 2 ;;
+            esac
+        done
+        set +f
+    done < "$conf"
+else
+    echo "chrome-route: no rules file $conf; opening without a profile" >&2
+fi
+
+# --- Resolve display name -> profile directory from Chrome's Local State -----
+profile_dir=""
+if [ -n "$profile_name" ]; then
+    profile_dir=$(python3 - "$profile_name" <<'EOF'
+import json, os, sys
+name = sys.argv[1]
+state = os.path.expanduser(
+    "~/Library/Application Support/Google/Chrome/Local State")
+try:
+    info = json.load(open(state))["profile"]["info_cache"]
+except (OSError, KeyError, ValueError):
+    sys.exit(0)
+for directory, meta in info.items():
+    if meta.get("name") == name:
+        print(directory)
+        break
+EOF
+    )
+    if [ -z "$profile_dir" ]; then
+        echo "chrome-route: no Chrome profile named '$profile_name'" \
+             "(context: $context); opening without a profile" >&2
+    fi
+fi
+
+if [ -n "$profile_dir" ]; then
+    exec open -na "Google Chrome" --args --profile-directory="$profile_dir" "$@"
+fi
+exec open -na "Google Chrome" --args "$@"
