@@ -1,4 +1,5 @@
 tap "d12frosted/emacs-plus"
+tap "ddev/ddev"
 tap "flipt-io/brew"
 tap "gromgit/fuse"
 tap "hashicorp/tap"
@@ -90,6 +91,8 @@ brew "librsvg"
 brew "libxml2"
 # Java-based project management
 brew "maven"
+# Libraries for security-enabled client and server applications
+brew "nss"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pinentry for GPG on Mac
@@ -134,6 +137,8 @@ brew "zlib"
 brew "zoxide"
 # GNU Emacs text editor
 brew "d12frosted/emacs-plus/emacs-plus@30", args: ["with-compress-install", "with-dbus", "with-debug", "with-mailutils", "with-xwidgets"], trusted: true
+# DDEV
+brew "ddev/ddev/ddev", trusted: true
 # Enterprise-ready, GitOps enabled, CloudNative feature management solution
 brew "flipt-io/brew/flipt", trusted: true
 # Rsync for cloud storage (with macOS FUSE mount support)
