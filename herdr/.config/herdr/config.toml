@@ -1,0 +1,23 @@
+onboarding = false
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui]
+agent_panel_sort = "priority"
+hide_tab_bar_when_single_tab = true
+
+[ui.toast]
+delivery = "system"
+
+[ui.sidebar.agents.rows_by_agent]
+claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"], ["agent"]]
+
+[keys]
+last_pane = "prefix+backtick"
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+
+[experimental]
+pane_history = true

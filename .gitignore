@@ -9,3 +9,10 @@
 # stays ignored by default.
 bin/bin/*
 !bin/bin/chrome-route
+
+# herdr keeps runtime state (logs, session.json, sessions/, its API socket)
+# next to config.toml. If the package is ever stowed without --no-folding,
+# ~/.config/herdr becomes a symlink into this repo and that state lands here
+# — keep everything except the config out of commits.
+herdr/.config/herdr/*
+!herdr/.config/herdr/config.toml

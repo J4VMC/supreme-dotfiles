@@ -37,6 +37,13 @@ stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm
 
 ```
 
+```bash
+stow --no-folding herdr
+
+```
+
+> **Note:** `herdr` must be stowed with `--no-folding` — herdr writes runtime state (logs, `session.json`, `sessions/`, its API socket) next to its config, and a folded `~/.config/herdr` symlink would land all of that inside this repository. `--no-folding` keeps the directory real and links only `config.toml`. Run `herdr integration install claude` once per machine so herdr receives real agent state from Claude Code (the hook installs into `~/.claude`, outside this repo).
+
 > **Note:** `homebrew` and `npm` are not optional — the `maintain` command dumps both package lists (`brew bundle dump --global` and `npm-globals dump`) to `~/.Brewfile` and `~/.npm-globals`; only the stow symlinks make those land in this repository. `emacs-plus` provides the build configuration (`~/.config/emacs-plus/build.yml`) used when compiling Emacs.
 
 > **Note:** stowing `npm` also links `~/.npmrc`. If a real file is already there, stow refuses the whole package — check that the existing one holds no credentials, then either delete it or run `stow --adopt npm` and `git diff` to see what it pulled in.
