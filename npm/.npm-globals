@@ -4,12 +4,15 @@
 # Append `@version` to pin; bare names track latest.
 #
 # Regenerate with `npm-globals dump`, install with `npm-globals install`.
-# `npm` and `corepack` are omitted on purpose: they ship with Node itself.
+# `npm` is omitted on purpose: it ships with Node itself. `corepack` does NOT
+# any more (Node 25 dropped it from the distribution), so it is listed below.
+#
+# Claude Code is deliberately absent: it is installed as the Homebrew cask
+# `claude-code` (see ~/.Brewfile), never through npm.
 #
 # NOTE: globals are installed per Node version under nvm. After
 # `nvm install <version>`, re-run `npm-globals install` for that version.
 
-@anthropic-ai/claude-code
 @aws/agentcore
 @earendil-works/pi-coding-agent
 @google/gemini-cli
@@ -18,6 +21,7 @@
 @vue/language-server
 aws-cdk
 bash-language-server
+corepack
 eslint
 intelephense
 prettier
