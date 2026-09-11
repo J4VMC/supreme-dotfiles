@@ -1,0 +1,4 @@
+#!/bin/sh
+# Global prepare-commit-msg hook: defers to the repository's lefthook config, if any.
+# See lefthook-dispatch in this directory for why this exists.
+exec "$(dirname "$0")/lefthook-dispatch" prepare-commit-msg "$@"
