@@ -19,6 +19,8 @@ brew "bat"
 brew "cmake"
 # Conventional Commits toolbox
 brew "cocogitto"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima"
 # General-purpose scripting language
@@ -32,9 +34,9 @@ brew "coursier"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
-brew "docker", link: false
+brew "docker"
 # Isolated development environments using Docker
-brew "docker-compose", link: false
+brew "docker-compose"
 # Spellchecker wrapping library
 brew "enchant"
 # Modern, maintained replacement for ls
@@ -81,18 +83,12 @@ brew "imagemagick"
 brew "k3d"
 # Fast and powerful Git hooks manager for any type of projects
 brew "lefthook"
-# Secure hashing function
-brew "libb2"
 # JIT library for the GNU compiler collection
 brew "libgccjit"
 # Library to render SVG files using Cairo
 brew "librsvg"
-# GNOME XML library
-brew "libxml2"
 # Java-based project management
 brew "maven"
-# Libraries for security-enabled client and server applications
-brew "nss"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pinentry for GPG on Mac
@@ -121,8 +117,6 @@ brew "starship"
 brew "stow"
 # TOML toolkit written in Rust
 brew "taplo"
-# Tool Command Language
-brew "tcl-tk"
 # Official documentation format of the GNU project
 brew "texinfo"
 # Incremental parsing library
@@ -136,7 +130,7 @@ brew "zlib"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # GNU Emacs text editor
-brew "d12frosted/emacs-plus/emacs-plus@30", args: ["with-compress-install", "with-dbus", "with-debug", "with-mailutils", "with-xwidgets"], trusted: true
+brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-compress-install", "with-dbus", "with-debug", "with-mailutils", "with-xwidgets"], trusted: true
 # DDEV
 brew "ddev/ddev/ddev", trusted: true
 # Enterprise-ready, GitOps enabled, CloudNative feature management solution
@@ -153,9 +147,12 @@ brew "symfony-cli/tap/symfony-cli", trusted: true
 brew "tilt-dev/tap/tilt", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
+# Terminal-based AI coding assistant
+cask "claude-code"
 # Free app that makes your Internet safer
 cask "cloudflare-warp"
 cask "font-fira-code-nerd-font"
+cask "font-symbols-only-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
 # File system integration
@@ -166,13 +163,12 @@ cask "ngrok"
 cask "pearcleaner"
 # CLI for command-line API management on Postman
 cask "postman-cli"
+# Open-source code editor
+cask "visual-studio-code"
 vscode "aaron-bond.better-comments"
-vscode "anysphere.remote-containers"
-vscode "anysphere.remote-ssh"
 vscode "dbaeumer.vscode-eslint"
 vscode "docker.docker"
 vscode "eamodio.gitlens"
-vscode "ericc-ch.lit-html"
 vscode "esbenp.prettier-vscode"
 vscode "mechatroner.rainbow-csv"
 vscode "ms-playwright.playwright"
@@ -187,7 +183,6 @@ go "golang.org/x/tools/cmd/goimports"
 go "github.com/golangci/golangci-lint/cmd/golangci-lint"
 go "golang.org/x/tools/gopls"
 go "github.com/sqls-server/sqls"
-npm "@anthropic-ai/claude-code"
 npm "@aws/agentcore"
 npm "@earendil-works/pi-coding-agent"
 npm "@google/gemini-cli"
