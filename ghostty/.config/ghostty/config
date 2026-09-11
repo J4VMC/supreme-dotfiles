@@ -1,6 +1,17 @@
 shell-integration = fish
 shell-integration-features = no-cursor
-command = fish
+# Fish comes from Homebrew, whose prefix depends on the CPU: /opt/homebrew on
+# Apple silicon, /usr/local on Intel. When Ghostty is launched from the Dock or
+# Finder it inherits launchd's minimal PATH, which on Apple silicon does not
+# include /opt/homebrew/bin -- so a bare `command = fish` only ever worked on
+# Intel, where /usr/local/bin is in /etc/paths. On macOS Ghostty runs the
+# value as `login -flp $USER /bin/bash --noprofile --norc -c "exec -l <value>"`,
+# and bash's `exec -l` takes ONE program, so the probing loop has to be wrapped
+# in its own `/bin/sh -c '...'`. That sh picks whichever fish exists and execs
+# it as a login shell (-l, so path_helper runs, as it would for a plain `fish`
+# command). If neither exists it falls back to the account's login shell
+# instead of a dead window.
+command = /bin/sh -c 'for f in /opt/homebrew/bin/fish /usr/local/bin/fish; do test -x "$f" && exec "$f" -l; done; exec "$SHELL" -l'
 
 font-family = "FiraCode Nerd Font"
 font-size = 14
