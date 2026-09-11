@@ -1,0 +1,31 @@
+# Stowed to ~/.stow-global-ignore, where GNU Stow actually reads it. A
+# .stow-local-ignore is only honoured INSIDE the package being stowed, so the
+# old copy at the repository root was silently ignored -- which is how
+# ~/.DS_Store and ~/lefthook.yml ended up as symlinks into the fish package.
+#
+# This file REPLACES Stow's built-in default list, so the defaults are
+# repeated here. Patterns are Perl regexes, anchored, matched against the
+# basename (or against the package-relative path when they contain a slash).
+#
+# Stow's defaults
+RCS
+.+,v
+CVS
+\.\#.+
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+\.gitmodules
+.+~
+\#.*\#
+^/README.*
+^/LICENSE.*
+^/COPYING
+# Ours
+\.DS_Store
+lefthook\.yml
+\.stow-local-ignore
+\.stow-global-ignore

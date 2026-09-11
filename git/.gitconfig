@@ -4,7 +4,13 @@
 [core]
     excludesfile = ~/.gitignore_global
     pager = delta
-    # Global commit-msg hook strips AI assistant attribution trailers.
+    # Global hooks directory. commit-msg strips AI assistant attribution
+    # trailers; every hook then hands off to `lefthook run <hook>` when the
+    # repository has a lefthook.yml. A global core.hooksPath disables the
+    # per-repo .git/hooks entirely, and lefthook refuses `lefthook install`
+    # under a custom hooks path, so the hand-off is the only way project
+    # lefthook configs run at all -- never `lefthook install --force` here,
+    # it would overwrite these hooks for every repository on the machine.
     hooksPath = ~/.config/git/hooks
 
 [pull]
@@ -62,7 +68,7 @@
     recurse = true
 [credential "https://github.com"]
 	helper = 
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !gh auth git-credential

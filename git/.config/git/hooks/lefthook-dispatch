@@ -1,0 +1,56 @@
+#!/bin/sh
+# Hand a git hook off to lefthook, if the repository uses it.
+#
+# ~/.gitconfig sets a global core.hooksPath (this directory). That makes git
+# skip every repository's own .git/hooks, and lefthook refuses `lefthook
+# install` under a custom hooks path (and `--force` would overwrite THESE
+# hooks, machine-wide). So instead each global hook calls this script, which
+# runs `lefthook run <hook>` whenever the repository carries a lefthook config
+# -- the same thing lefthook's own generated hook would have done.
+#
+# Usage: lefthook-dispatch <hook-name> [hook args...]   (stdin is passed through)
+#
+#   * Not a lefthook repo, or lefthook not installed: exit 0, nothing happens.
+#   * LEFTHOOK=0 in the environment skips it, exactly as lefthook's own hooks do.
+#   * --no-auto-install stops lefthook from trying to (re)install hooks on every
+#     run, which under a custom hooks path only prints a warning.
+#
+# Git runs hooks with the working tree root as the current directory, so a
+# relative config lookup is correct here (and correct inside submodules).
+
+hook="$1"
+shift
+
+[ "$LEFTHOOK" = "0" ] && exit 0
+
+found=""
+for cfg in lefthook.yml lefthook.yaml lefthook.toml lefthook.json \
+           .lefthook.yml .lefthook.yaml .lefthook.toml .lefthook.json; do
+    if [ -f "$cfg" ]; then
+        found=1
+        break
+    fi
+done
+[ -n "$found" ] || exit 0
+
+# Only hand off hooks the config actually defines. lefthook's own installer
+# creates hook files just for those; calling `lefthook run` for the others
+# does nothing useful but still prints its banner on every commit/checkout.
+case "$cfg" in
+    *.yml|*.yaml) grep -qE "^[\"']?${hook}[\"']?:" "$cfg" || exit 0 ;;
+    *.toml)       grep -qE "^\[${hook}(\]|\.)" "$cfg" || exit 0 ;;
+    *.json)       grep -qE "\"${hook}\"[[:space:]]*:" "$cfg" || exit 0 ;;
+esac
+
+if [ -n "$LEFTHOOK_BIN" ]; then
+    exec "$LEFTHOOK_BIN" run --no-auto-install "$hook" "$@"
+elif command -v lefthook >/dev/null 2>&1; then
+    exec lefthook run --no-auto-install "$hook" "$@"
+elif [ -x /opt/homebrew/bin/lefthook ]; then
+    exec /opt/homebrew/bin/lefthook run --no-auto-install "$hook" "$@"
+elif [ -x /usr/local/bin/lefthook ]; then
+    exec /usr/local/bin/lefthook run --no-auto-install "$hook" "$@"
+fi
+
+echo "lefthook-dispatch: $cfg present but lefthook is not installed (brew install lefthook); skipping $hook" >&2
+exit 0

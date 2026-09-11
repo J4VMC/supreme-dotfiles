@@ -9,6 +9,10 @@
 # Wired up globally via core.hooksPath in git/.gitconfig, so it applies to every
 # repository on this machine, submodules included. Repos that set their own
 # core.hooksPath (husky and friends) override this and are unaffected.
+#
+# After stripping, the message is handed to the repository's lefthook config
+# (if any) via lefthook-dispatch, so project commit-msg checks such as
+# `cog verify` still run under the global hooks path.
 
 msg="$1"
 tmp="$msg.noai"
@@ -21,3 +25,5 @@ awk 'BEGIN { blanks = 0 }
      { while (blanks-- > 0) print ""; blanks = 0; print }' "$tmp" >"$msg"
 
 rm -f "$tmp"
+
+exec "$(dirname "$0")/lefthook-dispatch" commit-msg "$@"
