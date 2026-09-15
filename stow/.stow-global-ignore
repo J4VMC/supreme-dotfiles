@@ -7,6 +7,16 @@
 # repeated here. Patterns are Perl regexes, anchored, matched against the
 # basename (or against the package-relative path when they contain a slash).
 #
+# Stow only consults this file once it is linked into ~, so `stow stow` has to
+# run (for real, not with -n) before any other package: until then every
+# other package is filtered by the built-in list, which knows nothing about
+# .DS_Store, lefthook.yml or .gitattributes, and the submodules' copies of
+# those either conflict with each other or land in ~.
+#
+# Deliberately NOT listed: this file itself. Ignoring it made `stow -D stow`
+# a silent no-op: the package's only file was skipped, so the symlink in ~
+# was never removed.
+#
 # Stow's defaults
 RCS
 .+,v
@@ -26,6 +36,10 @@ _darcs
 ^/COPYING
 # Ours
 \.DS_Store
+# The submodules carry their own repo-level files at the package root: their
+# lefthook config and, in emacs, a .gitattributes for the elpaca.lock diff
+# driver. Git does not read ~/.gitattributes (the global file is
+# core.attributesFile), so linking it into ~ is pure clutter.
 lefthook\.yml
+\.gitattributes
 \.stow-local-ignore
-\.stow-global-ignore

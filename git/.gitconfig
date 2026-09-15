@@ -1,6 +1,6 @@
 [init]
     defaultBranch = main
-    
+
 [core]
     excludesfile = ~/.gitignore_global
     pager = delta
@@ -30,20 +30,19 @@
     format = ssh
 
 [gpg "ssh"]
+    # Only consulted when VERIFYING signatures (git log --show-signature,
+    # git verify-commit); signing works without it. One line per identity:
+    #     <email> <contents of the .pub key>
     allowedSignersFile = ~/.ssh/allowed_signers
 
 [user]
     # Set your default/personal public key here
     signingkey = ~/.ssh/id_ed25519.pub
+    # No name/email here on purpose: they live in ~/.gitconfig.local (see the
+    # [include] at the bottom). With useConfigOnly git refuses to guess an
+    # identity from the login name and hostname, so until that file exists
+    # every commit fails with "user.useConfigOnly set but no name given".
     useConfigOnly = true
-
-# Machine-local & per-client overrides. Placed LAST — after [user] and
-# everything else — so whatever ~/.gitconfig.local sets (identities, signing
-# keys, per-directory includeIf routing for client work areas) always wins
-# over the committed defaults above. The .local file is untracked by design:
-# client names and work identities never appear in this repository.
-[include]
-    path = ~/.gitconfig.local
 
 # --- Delta & Diffs ---
 [diff "elpaca-lock"]
@@ -56,7 +55,11 @@
 [delta]
     navigate = true
     light = false
-    features = gruvbox
+    # `features = gruvbox` used to sit here. delta's `features` names
+    # [delta "<name>"] sections of this file, and no such section existed, so
+    # it was a silent no-op and diffs rendered in delta's default Monokai.
+    # The theme is a bat/syntect syntax theme (`delta --list-syntax-themes`).
+    syntax-theme = gruvbox-dark
 
 [merge]
     conflictstyle = diff3
@@ -66,9 +69,21 @@
 
 [submodule]
     recurse = true
+
 [credential "https://github.com"]
-	helper = 
-	helper = !gh auth git-credential
+    helper =
+    helper = !gh auth git-credential
+
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !gh auth git-credential
+    helper =
+    helper = !gh auth git-credential
+
+# Machine-local & per-client overrides. This MUST stay the last section: git
+# applies config in file order, so anything below an [include] would win over
+# ~/.gitconfig.local. Whatever that file sets (identities, signing keys,
+# per-directory includeIf routing for client work areas, a different
+# credential helper) always overrides the committed defaults above. The
+# .local file is untracked by design: client names and work identities
+# never appear in this repository.
+[include]
+    path = ~/.gitconfig.local
