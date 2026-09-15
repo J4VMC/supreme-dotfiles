@@ -191,6 +191,7 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 
 - `stow/`: `~/.stow-global-ignore`, the only ignore list GNU Stow applies to the whole stow directory. Stow it first.
 - `bin/`: scripts linked into `~/bin`. Only the client-free `chrome-route` (profile-routing `$BROWSER` launcher) is tracked; everything else in `bin/bin/` is gitignored on purpose.
+  - `chrome-route` is only half of the router: its per-client rules (`~/.config/chrome-router/<context>.conf`, `host-patterns = Chrome profile name`) are untracked on purpose, because they name clients and this repository is public. On a new machine restore that directory from the old one (or recreate it), make sure the Chrome profiles it names exist, and note that macOS blocks terminals from Chrome's `Local State` until they are allowed access to other apps' data — the script reports `cannot read … Operation not permitted` in that case; until it is allowed, a rule can name the profile directory directly (`* = Profile 2`, from `chrome://version` in that profile).
 - `emacs/`: Emacs configuration (`init.el` and modules).
 - `emacs-plus/`: Build configuration for the emacs-plus formula (`build.yml`).
 - `fish/`: Fish shell configuration and functions.

@@ -21,10 +21,21 @@
 #     are shell globs matched against the URL's bare host. "#" starts a
 #     comment.
 #
-#   * Profile:  the display name from the rules file is resolved to Chrome's
+#   * Profile:  the name from the rules file is resolved to Chrome's
 #     directory name (Default, Profile 1, ...) at launch time by reading
 #     Chrome's Local State, so profiles can be renumbered or recreated
-#     without touching any config here.
+#     without touching any config here. It matches the profile's display
+#     name, its Google account name, or the account e-mail. A rule may
+#     also name the directory itself ("= Profile 2"), which skips Local
+#     State entirely -- the way out when macOS refuses the read (see below).
+#     $CHROME_ROUTER_LOCAL_STATE overrides the Local State path (Chrome
+#     Beta/Canary/Chromium keep theirs elsewhere).
+#
+# Since macOS 15, Chrome's data directory is TCC-protected: a terminal app
+# reading it gets "Operation not permitted" until the user allows it (the
+# "access data from other apps" prompt, or Full Disk Access). That failure
+# is reported as such, distinct from "no such profile", because the two
+# need different fixes.
 #
 # Only the FIRST URL a tool hands over needs routing: subsequent SSO
 # redirects happen inside whatever profile window was opened.
@@ -76,27 +87,42 @@ else
     echo "chrome-route: no rules file $conf; opening without a profile" >&2
 fi
 
-# --- Resolve display name -> profile directory from Chrome's Local State -----
+# --- Resolve profile name -> profile directory from Chrome's Local State ------
 profile_dir=""
 if [ -n "$profile_name" ]; then
-    profile_dir=$(python3 - "$profile_name" <<'EOF'
+    case "$profile_name" in
+        # Already a directory name: nothing to look up.
+        Default|Profile\ [0-9]*) profile_dir="$profile_name" ;;
+        *)
+            profile_dir=$(python3 - "$profile_name" <<'EOF'
 import json, os, sys
 name = sys.argv[1]
-state = os.path.expanduser(
+state = os.environ.get("CHROME_ROUTER_LOCAL_STATE") or os.path.expanduser(
     "~/Library/Application Support/Google/Chrome/Local State")
 try:
-    info = json.load(open(state))["profile"]["info_cache"]
-except (OSError, KeyError, ValueError):
-    sys.exit(0)
+    with open(state) as f:
+        info = json.load(f)["profile"]["info_cache"]
+except OSError as err:
+    # EPERM here is macOS refusing this terminal access to Chrome's data;
+    # ENOENT means Chrome has never run. Neither is "no such profile".
+    print("chrome-route: cannot read %s: %s" % (state, err.strerror), file=sys.stderr)
+    sys.exit(2)
+except (KeyError, ValueError):
+    print("chrome-route: %s holds no profile list" % state, file=sys.stderr)
+    sys.exit(2)
 for directory, meta in info.items():
-    if meta.get("name") == name:
+    if name in (meta.get("name"), meta.get("gaia_name"), meta.get("user_name")):
         print(directory)
-        break
+        sys.exit(0)
+known = ", ".join(sorted(m.get("name") or d for d, m in info.items()))
+print("chrome-route: no Chrome profile named '%s'; Chrome has: %s" % (name, known), file=sys.stderr)
+sys.exit(1)
 EOF
-    )
+            )
+            ;;
+    esac
     if [ -z "$profile_dir" ]; then
-        echo "chrome-route: no Chrome profile named '$profile_name'" \
-             "(context: $context); opening without a profile" >&2
+        echo "chrome-route: profile '$profile_name' unresolved (context: $context); opening without a profile" >&2
     fi
 fi
 
