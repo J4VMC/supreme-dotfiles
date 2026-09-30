@@ -19,14 +19,14 @@ brew "bat"
 brew "cmake"
 # Conventional Commits toolbox
 brew "cocogitto"
-# GNU File, Shell, and Text utilities
-brew "coreutils"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima"
 # General-purpose scripting language
 brew "php"
 # Dependency Manager for PHP
 brew "composer"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
 # Development kit for the Java programming language
 brew "openjdk"
 # Pure Scala Artifact Fetching
@@ -123,6 +123,8 @@ brew "texinfo"
 brew "tree-sitter"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
 # General-purpose lossless data-compression library
@@ -148,7 +150,7 @@ brew "tilt-dev/tap/tilt", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
 # Terminal-based AI coding assistant
-cask "claude-code"
+cask "claude-code@latest"
 # Free app that makes your Internet safer
 cask "cloudflare-warp"
 cask "font-fira-code-nerd-font"
@@ -165,6 +167,8 @@ cask "pearcleaner"
 cask "postman-cli"
 # Open-source code editor
 cask "visual-studio-code"
+# Open-source markdown editor
+cask "zettlr"
 vscode "aaron-bond.better-comments"
 vscode "dbaeumer.vscode-eslint"
 vscode "docker.docker"

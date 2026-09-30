@@ -40,7 +40,7 @@ stow stow
 ```
 
 ```bash
-stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm bin
+stow emacs emacs-plus fish git ghostty starship fastfetch homebrew npm bin zsh
 
 ```
 
@@ -147,6 +147,7 @@ The Fish configuration is split between `config.fish` and modular functions.
 - **Completions**: `generate-completions <cmd> ...` snapshots a CLI's fish completions into `completions/` for tools that do not ship them through Homebrew (`jules`, `ngrok`, `symfony`). Homebrew formulae that ship their own (`gh`, `docker`) are picked up from `vendor_completions.d` and are deliberately not duplicated here.
 - **Key Features**:
 - **Init Snapshots**: `starship`, `zoxide`, and `direnv` inits are committed as static `conf.d/` snapshots instead of being re-generated on every shell start — much faster startups. `regen-shell-inits` refreshes them after upgrades (`maintain` does this automatically).
+- **direnv outside fish**: the snapshotted hook only fires at a fish prompt. `zsh/.zshenv` evaluates the current directory's `.envrc` once at zsh startup instead, which is what the Claude desktop app's tool shell needs: it runs every command as `/bin/zsh -c …` (fish is not a supported tool shell there), so without it a session inside a client tree saw none of that tree's `.envrc` (`GH_CONFIG_DIR`, `AWS_PROFILE`, …) and `gh` kept answering as the personal account.
 - **Auto-Updates**: Automatically runs a background Homebrew update check (`brew_daily_update`) once per day.
 - **Theme**: Customized with a **Gruvbox** color palette.
 - **Aliases**: Includes `ls` (eza), `cat` (bat), and `maintain` for full system maintenance.
@@ -195,6 +196,7 @@ A high-performance, modular Emacs configuration using the **Elpaca** package man
 - `emacs/`: Emacs configuration (`init.el` and modules).
 - `emacs-plus/`: Build configuration for the emacs-plus formula (`build.yml`).
 - `fish/`: Fish shell configuration and functions.
+- `zsh/`: `~/.zshenv` only — zsh is not the login shell; this makes non-interactive zsh (the Claude desktop app's tool shell) load the current directory's `.envrc` via direnv, see the Fish section.
 - `git/`: Global Git configuration.
 - `homebrew/`: System package manifest (stowed to `~/.Brewfile` so `maintain` can keep it in sync; `brew bundle --global` installs from it). Carries taps, formulae, casks, VS Code extensions and Go tools — never `npm` entries.
 - `npm/`: Global npm package manifest (stowed so `maintain` can keep it in sync) plus `.npmrc`, which carries the `allow-scripts` list npm requires before a package's install scripts may run. **Never put a registry token in `npm/.npmrc`** — it is stowed to `~/.npmrc`, where `npm login` writes credentials, and this repository is public.
