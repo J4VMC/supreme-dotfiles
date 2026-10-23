@@ -2,6 +2,8 @@
 
 A modular macOS development environment, managed with **GNU Stow** and centred on **Emacs 31**, the **Fish shell**, **Ghostty** and a curated Homebrew manifest. The repository is public; everything machine- or client-specific stays out of it on purpose (see [What is deliberately not tracked](#what-is-deliberately-not-tracked)).
 
+Installing with an AI coding agent? Point it at [AGENTS.md](AGENTS.md), which turns the steps below into a checked runbook.
+
 The Emacs and Fish configurations are separate repositories, pulled in as git submodules:
 
 | Package | Repository | Linked to |
@@ -261,4 +263,5 @@ This repository is public. The following stay on each machine and are either git
 - `herdr/`: config for the herdr agent multiplexer (`config.toml` only; stow with `--no-folding`, see above).
 - `lefthook.yml`: commit hooks for this repository itself (Conventional Commits check via Cocogitto, and a pre-commit guard that rejects credentials staged into `npm/.npmrc`), executed by the global git hooks above. Each submodule carries its own copy with the Conventional Commits check.
 - `.editorconfig`: 4-space indentation (2 for web/YAML/JSON, tabs for Go and Makefiles), LF, final newline.
+- `AGENTS.md`: the installation as a step-by-step runbook for AI coding agents, with checks after each step, the points that need a human, and the rules for changing this repository. `CLAUDE.md` just imports it. Each submodule carries its own pair; the stow ignore list keeps them out of `~`.
 - `LICENSE`: GPL-3.0.

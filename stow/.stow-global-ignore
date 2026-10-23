@@ -43,3 +43,8 @@ _darcs
 lefthook\.yml
 \.gitattributes
 \.stow-local-ignore
+# Agent instructions sit at each submodule's package root (fish/AGENTS.md,
+# emacs/AGENTS.md, and the CLAUDE.md that imports them); like README they
+# must never be linked into ~.
+^/AGENTS\.md
+^/CLAUDE\.md
