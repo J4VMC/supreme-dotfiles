@@ -1,20 +1,26 @@
 tap "d12frosted/emacs-plus"
 tap "ddev/ddev"
 tap "flipt-io/brew"
-tap "gromgit/fuse"
+tap "gromgit/fuse", trusted: { formulae: ["rclone-mac", "sshfs-mac"] }
 tap "hashicorp/tap"
 tap "symfony-cli/tap"
 tap "tilt-dev/tap"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@3"
 # Command-line interface for SQLite
 brew "sqlite"
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # Official Amazon AWS command-line interface
 brew "awscli"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Incredibly fast JavaScript runtime, bundler, test runner, and package manager
+brew "bun"
+# CLI tool for Cloudflare Workers
+brew "cloudflare-wrangler"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
 # Cross-platform make
 brew "cmake"
 # Conventional Commits toolbox
@@ -81,6 +87,8 @@ brew "herdr"
 brew "imagemagick"
 # Little helper to run CNCF's k3s in Docker
 brew "k3d"
+# Kubernetes command-line interface
+brew "kubernetes-cli"
 # Fast and powerful Git hooks manager for any type of projects
 brew "lefthook"
 # JIT library for the GNU compiler collection
@@ -89,6 +97,8 @@ brew "libgccjit"
 brew "librsvg"
 # Java-based project management
 brew "maven"
+# Provides a software solution to manage, store, and distribute sensitive data
+brew "openbao"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Pinentry for GPG on Mac
@@ -137,10 +147,6 @@ brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-compress-install", "wit
 brew "ddev/ddev/ddev", trusted: true
 # Enterprise-ready, GitOps enabled, CloudNative feature management solution
 brew "flipt-io/brew/flipt", trusted: true
-# Rsync for cloud storage (with macOS FUSE mount support)
-brew "gromgit/fuse/rclone-mac", trusted: true
-# File system client based on SSH File Transfer Protocol
-brew "gromgit/fuse/sshfs-mac", trusted: true
 # Terraform
 brew "hashicorp/tap/terraform", trusted: true
 # Symfony CLI helps Symfony developers manage projects, from local code to remote infrastructure
@@ -151,12 +157,12 @@ brew "tilt-dev/tap/tilt", trusted: true
 cask "1password-cli"
 # Terminal-based AI coding assistant
 cask "claude-code@latest"
-# Free app that makes your Internet safer
-cask "cloudflare-warp"
 cask "font-fira-code-nerd-font"
 cask "font-symbols-only-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Software for Logitech devices
+cask "logi-options+"
 # File system integration
 cask "macfuse"
 # Reverse proxy, secure introspectable tunnels to localhost
